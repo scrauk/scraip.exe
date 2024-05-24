@@ -1,0 +1,208 @@
+-- Credits To The Original Devs @xz, @goof
+getgenv().Config = {
+	Invite = "informant.wtf",
+	Version = "0.0",
+}
+
+getgenv().luaguardvars = {
+	DiscordName = "username#0000",
+}
+
+local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/drillygzzly/Other/main/1"))()
+
+library:init() -- Initalizes Library Do Not Delete This
+
+local Window = library.NewWindow({
+	title = "Informant.Wtf",
+	size = UDim2.new(0, 525, 0, 650)
+})
+
+local tabs = {
+    Tab1 = Window:AddTab("Tab1"),
+	Settings = library:CreateSettingsTab(Window),
+}
+
+-- 1 = Set Section Box To The Left
+-- 2 = Set Section Box To The Right
+
+local sections = {
+	Section1 = tabs.Tab1:AddSection("Section1", 1),
+	Section2 = tabs.Tab1:AddSection("Section2", 2),
+}
+
+sections.Section1:AddToggle({
+	enabled = true,
+	text = "Toggle1",
+	flag = "Toggle_1",
+	tooltip = "Tooltip1",
+	risky = true, -- turns text to red and sets label to risky
+	callback = function(lol)
+	    print("Toggle Is Now Set To : ".. lol)
+	end
+})
+
+sections.Section1:AddButton({
+	enabled = true,
+	text = "Button1",
+	flag = "Button_1",
+	tooltip = "Tooltip1",
+	risky = false,
+	confirm = false, -- shows confirm button
+	callback = function(v)
+	    print(v)
+	end
+})
+
+sections.Section1:AddSeparator({
+	text = "Separator"
+})
+
+sections.Section1:AddSlider({
+	text = "Slider", 
+	flag = 'Slider_1', 
+	suffix = "", 
+	value = 0.000,
+	min = 0.1, 
+	max = 0.999,
+	increment = 0.001,
+	tooltip = "Tooltip1",
+	risky = false,
+	callback = function(v) 
+		print("Slider Value Is Now : ".. v)
+	end
+})
+
+sections.Section1:AddBind({
+	text = "Keybind",
+	flag = "Key_1",
+	nomouse = true,
+	noindicator = true,
+	tooltip = "Tooltip1",
+	mode = "toggle",
+	bind = Enum.KeyCode.Q,
+	risky = false,
+	keycallback = function(v)
+	    print("Keybind Changed!")
+	end
+})
+
+sections.Section1:AddList({
+	enabled = true,
+	text = "List",
+	flag = "List_1",
+	multi = false,
+	tooltip = "Tooltip1",
+    risky = false,
+    dragging = false,
+    focused = false,
+	value = "1",
+	values = {
+		"1",
+		"2",
+		"3"
+	},
+	callback = function(v)
+	    print("List Value Is Now : "..v)
+	end
+})
+
+sections.Section1:AddBox({
+    enabled = true,
+    focused = true,
+    text = "TextBox1",
+    input = "PlaceHolder1",
+	flag = "Text_1",
+	risky = false,
+	callback = function(v)
+	    print(v)
+	end
+})
+
+sections.Section1:AddText({
+    enabled = true,
+    text = "Text1",
+    flag = "Text_1",
+    risky = false,
+})
+
+sections.Section1:AddColor({
+    enabled = true,
+    text = "ColorPicker1",
+    flag = "Color_1",
+    tooltip = "ToolTip1",
+    color = Color3.new(255, 255, 255),
+    trans = 0,
+    open = false,
+    callback = function()
+        
+    end
+})
+
+library:SendNotification("Notification", 5, Color3.new(255, 0, 0))
+
+--Window:SetOpen(true) -- Either Close Or Open Window 
+
+-- Script para Blox Fruits (Roblox) - Auto Farm, ESP e ativação/desativação com a tecla "G"
+
+local player = game.Players.LocalPlayer
+local character = player.Character
+local userInputService = game:GetService("UserInputService")
+
+-- Variáveis para controle do script
+local isScriptEnabled = true
+local toggleKey = Enum.KeyCode.G
+
+-- Função para farmar automaticamente
+local function autoFarm()
+    while true do
+        if isScriptEnabled then
+            -- Lógica para encontrar inimigos ou recursos para farmar
+            -- Por exemplo, verificar se há inimigos próximos ou árvores para cortar
+            -- Você pode adicionar suas próprias condições aqui
+
+            -- Se encontrar algo para farmar, ataque ou colete
+            -- Por exemplo:
+            if character and character:FindFirstChild("Humanoid") then
+                -- Ataque o inimigo ou colete o recurso
+                -- Por exemplo:
+                character.Humanoid:Move(Vector3.new(0, 10, 0)) -- Mover o personagem para cima
+            end
+        end
+
+        wait(1) -- Espere um segundo antes de verificar novamente
+    end
+end
+
+-- Função para mostrar inimigos próximos (ESP)
+local function showEnemies()
+    while true do
+        if isScriptEnabled then
+            -- Lógica para encontrar inimigos próximos
+            -- Por exemplo, verificar a posição de outros jogadores ou NPCs
+
+            -- Se encontrar um inimigo, mostre sua posição
+            -- Por exemplo:
+            local enemyPosition = Vector3.new(100, 0, 200) -- Posição fictícia de um inimigo
+            print("Inimigo encontrado em posição:", enemyPosition)
+        end
+
+        wait(5) -- Espere 5 segundos antes de verificar novamente
+    end
+end
+
+-- Função para alternar a ativação/desativação do script
+local function toggleScript()
+    isScriptEnabled = not isScriptEnabled
+    print("Script " .. (isScriptEnabled and "ativado" or "desativado"))
+end
+
+-- Conectar a função de alternância ao evento de pressionar a tecla "G"
+userInputService.InputBegan:Connect(function(input, gameProcessedEvent)
+    if input.KeyCode == toggleKey and not gameProcessedEvent then
+        toggleScript()
+    end
+end)
+
+-- Iniciar as funções em threads separadas
+spawn(autoFarm)
+spawn(showEnemies)
