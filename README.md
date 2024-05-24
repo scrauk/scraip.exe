@@ -1,0 +1,2 @@
+# scraip.exe
+script
